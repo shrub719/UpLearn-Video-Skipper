@@ -41,6 +41,9 @@ const makeApiRequest = () => {
     const subsectionUniqueCode = urlParts[5];
     const uniqueCode = urlParts[6];
 
+    const match = document.cookie.match(new RegExp('(^|;\\s*)' + "auth-token" + '=([^;]*)'));
+    const auth = match ? decodeURIComponent(match[2]) : null;
+
     fetch("https://web.uplearn.co.uk/api/", {
         headers: {
             "accept": "*/*",
@@ -51,7 +54,8 @@ const makeApiRequest = () => {
             "sec-ch-ua-platform": "\"Windows\"",
             "sec-fetch-dest": "empty",
             "sec-fetch-mode": "cors",
-            "sec-fetch-site": "same-origin"
+            "sec-fetch-site": "same-origin",
+            "authorization": `Bearer ${auth}`
         },
         credentials: "include",
         body: JSON.stringify({
